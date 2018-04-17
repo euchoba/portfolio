@@ -2,12 +2,18 @@
 
 namespace App\Http\Controllers;
 use App\Post;
+use function auth;
 use function compact;
 use function redirect;
 use function request;
 
 class PostsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->except(['index', 'show']);
+    }
+
     public function index()
     {
         $posts = Post::latest()->get();
@@ -32,7 +38,9 @@ class PostsController extends Controller
             'body' => 'required'
         ]);
 
-        Post::create(request(['title', 'body']));
+        auth()->user()->publish(
+            new Post(request(['title', 'body']))
+        );
 
         return redirect('/');
     }
