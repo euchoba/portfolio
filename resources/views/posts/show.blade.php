@@ -22,7 +22,9 @@
 
         </div>
 
-        <hr>
+        @if (count($post->comments))
+            <hr>
+        @endif
 
         <div class="card">
             <div class="card-body">
