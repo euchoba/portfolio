@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Post;
+use Carbon\Carbon;
 use function auth;
 use function compact;
 use function redirect;
@@ -16,9 +17,21 @@ class PostsController extends Controller
 
     public function index()
     {
-        $posts = Post::latest()->get();
+        $posts = Post::latest();
 
-        return view('posts.index', compact('posts'));
+        if ($request = request(['month', 'year'])) {
+            $posts->filter($request);
+        }
+
+        $posts = $posts->get();
+
+        $archives = Post::selectRaw('year(created_at) year, monthname(created_at) month, count(*) published')
+            ->groupBy('year', 'month')
+            ->orderByRaw('min(created_at) desc')
+            ->get()
+            ->toArray();
+
+        return view('posts.index', compact('posts', 'archives'));
     }
 
     public function show(Post $post)
