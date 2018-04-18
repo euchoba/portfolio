@@ -5,6 +5,7 @@ namespace App;
 use Carbon\Carbon;
 use function compact;
 use Illuminate\Database\Eloquent\Model;
+use function request;
 
 class Post extends Model
 {
@@ -22,7 +23,10 @@ class Post extends Model
 
     public function addComment($body)
     {
-        $this->comments()->create(compact('body'));
+        $this->comments()->create([
+            'body' => request('body'),
+            'user_id' => auth()->id()
+        ]);
     }
 
     public function scopeFilter($query, $filters)

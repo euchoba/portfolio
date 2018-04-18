@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Post;
+use App\Repositories\Posts;
 use function auth;
 use function compact;
 use function redirect;
@@ -14,15 +15,16 @@ class PostsController extends Controller
         $this->middleware('auth')->except(['index', 'show']);
     }
 
-    public function index()
+    public function index(Posts $posts)
     {
-        $posts = Post::latest();
-
-        if ($request = request(['month', 'year'])) {
-            $posts->filter($request);
-        }
-
-        $posts = $posts->get();
+        $posts = $posts->all();
+//        $posts = Post::latest();
+//
+//        if ($request = request(['month', 'year'])) {
+//            $posts->filter($request);
+//        }
+//
+//        $posts = $posts->get();
 
         return view('posts.index', compact('posts'));
     }

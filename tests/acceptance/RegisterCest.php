@@ -3,7 +3,7 @@
 use Codeception\Step\Argument\PasswordArgument;
 
 /**
- * @run java -Dwebdriver.chrome.driver=chromedriver -jar ~/Sites/tools/selenium-server-standone-3.11.0.jar
+ *  java -jar ~/Sites/tools/selenium-server-standalone-3.11.0.jar
  */
 class RegisterCest
 {

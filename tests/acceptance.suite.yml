@@ -13,6 +13,7 @@ modules:
             url: https://portfolio.app
 #        - WebDriver:
 #            url: https://portfolio.app
-#            host: 192.168.253.151
+#            window_size: false
+#            port: 9515
 #            browser: chrome
         - \Helper\Acceptance
